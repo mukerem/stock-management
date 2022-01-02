@@ -1,0 +1,46 @@
+{% extends 'manager_base_site.html'%}
+{% block title%}Vehicle type list{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="col-sm-8" style="margin-top: 10px; margin-left: 10%;">
+    <a class="btn btn-success" href="{% url 'vehicle_register'  %}"
+        style="float: right; width: 200px;margin-bottom: 10px;">vehicle register</a>
+
+    {% if not vehicle_list%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>There is no Vehicle list</h3>
+    </div>
+    {% else %}
+    <table class="table table-striped">
+        <thead class="table-info">
+            <tr>
+                <th><strong>name</strong></th>
+                <th><strong>discription</strong></th>
+                <th><strong></strong></th>
+            </tr>
+        </thead>
+        {% for i in vehicle_list %}
+        <tr>
+            <td>{{i.name}}</td>
+            <td>{{i.discription}}</td>
+            <td style="float:right;">
+                <a href="{% url 'edit_vehicle' i.id %}" style="margin-left: 8px;" title="edit"> <img
+                        src="{% static 'Images/icons/edit.png' %}" height="20" width="20"></a>
+                <a href="{% url 'delete_vehicle' i.id %}" style="margin-left: 8px;" title="delete"> <img
+                        src="{% static 'Images/icons/delete.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

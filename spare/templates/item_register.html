@@ -1,0 +1,21 @@
+{% extends 'manager_base_site.html'%}
+{% block title%}Item Register{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<script src="{% static 'files/jsi18n.js' %}"> </script>
+
+<div class="container col-7" style="margin-left:10%; margin-top:3%;">
+    {{form.media}}
+    <form enctype="multipart/form-data" method="post" novalidate>
+        {% csrf_token %}
+
+        {% include 'horizontal_form.html' %}
+        <button type="submit" class="btn btn-primary"> save</button>
+
+    </form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'manager_base_site.html'%}
+{% block title%}Store Shelf{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="col-sm-8" style="margin-top: 10px; margin-left: 10%;">
+    <a class="btn btn-success" href="{% url 'shelf_register'  %}"
+        style="float: right; width: 200px;margin-bottom: 10px;">shelf register</a>
+
+    {% if not shelf_list%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>There is no Shelf</h3>
+    </div>
+    {% else %}
+    <table class="table table-striped">
+        <thead class="table-info">
+            <tr>
+                <th><strong>name</strong></th>
+                <th><strong>store place</strong></th>
+                <th><strong></strong></th>
+            </tr>
+        </thead>
+        {% for i in shelf_list %}
+
+        <tr>
+            <td>{{i.name}}</td>
+            <td>{{i.place}}</td>
+            <td style="float:right;">
+                <a href="{% url 'edit_shelf' i.id %}" style="margin-left: 8px;" title="edit"> <img
+                        src="{% static 'Images/icons/edit.png' %}" height="20" width="20"></a>
+                <a href="{% url 'delete_shelf' i.id %}" style="margin-left: 8px;" title="delete"> <img
+                        src="{% static 'Images/icons/delete.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+
+
+        {% endfor %}
+    </table>
+
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

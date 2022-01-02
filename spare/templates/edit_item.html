@@ -1,0 +1,71 @@
+{% extends 'manager_base_site.html'%}
+{% block title%}Edit Item{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<script src="{% static 'files/jsi18n.js' %}"> </script>
+
+<div class="container col-8" style="margin-left:10%;">
+    <br>
+    {{form.media}}
+    <form enctype="multipart/form-data" method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <table class="form-error">
+            {% for error in form.non_field_errors%}
+            <tr>
+                <td><b> {{ error}}</b></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        {% endif %}
+        <table class="table table-light" style="width:100%;">
+            {% for field in form.visible_fields %}
+            <tr>
+                <td>
+                    {% if field.field.required%}
+                    <strong>{{ field.label_tag }}</strong>
+                    {% else %}
+                    {{ field.label_tag }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if field.name == 'photo' %}
+                    {% if field.value %}
+                    <br><img src="{{photo}}" height="150" width="200"><br><br>
+                    {% endif %}
+                    {% endif %}
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for  error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                    {% endfor %}
+
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+
+
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% endfor %}
+        </table>
+        <button type="submit" class="btn btn-primary"> save changes</button>
+
+    </form>
+
+</div>
+{% endblock %}

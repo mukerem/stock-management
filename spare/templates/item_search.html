@@ -1,0 +1,110 @@
+{% extends base_page %}
+{% block title%}Item search{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="container col-5" style=" float:right; margin-left:5%;">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            {% for field in form.visible_fields %}
+            {% if field.name == 'search_engine' %}
+            <div class="col-md-7">
+                {% render_field field class="form-control" %}
+            </div>
+            {% else %}
+            <div class="col-md-3 ">
+                {% render_field field class="form-control" %}
+            </div>
+            {% endif %}
+
+            {% endfor %}
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary"> search</button>
+            </div>
+        </div>
+    </form>
+</div>
+<br><br>
+<div class="col-sm-12" style="margin-top: 10px;">
+    {% if not item_list%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>There is no Item</h3>
+    </div>
+    {% else %}
+    <table class="table table-striped">
+        <thead class="table-info">
+            {% if request.user.role == "manager" %}
+            <tr>
+                <th><strong>part number</strong></th>
+                <th><strong>product name</strong></th>
+                <th><strong>purchase price</strong></th>
+                <th><strong>selling price</strong></th>
+                <th><strong>Total quantity</strong></th>
+                <th><strong>available quantity</strong></th>
+                <th><strong>type of car</strong></th>
+                <th><strong>shelf</strong></th>
+                <th><strong></strong></th>
+            </tr>
+            {% else %}
+            <tr>
+                <th><strong>part number</strong></th>
+                <th><strong>product name</strong></th>
+                <th><strong>selling price</strong></th>
+                <th><strong>available quantity</strong></th>
+                <th><strong>type of car</strong></th>
+                <th><strong>shelf</strong></th>
+                <th><strong></strong></th>
+            </tr>
+            {% endif %}
+        </thead>
+        {% if request.user.role == "manager" %}
+        {% for i in item_list %}
+        <tr>
+            <td>{{i.part_number}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.purchase_price}}</td>
+            <td>{{i.selling_price}}</td>
+            <td>{{i.quantity}}</td>
+            <td>{{i.available_quantity}}</td>
+            <td>{{i.car_type}}</td>
+            <td>{{i.shelf_position}}</td>
+            <td style="float:right;">
+                <a href="{% url 'select_item_to_sell' i.id %}" title="sell"> <img
+                        src="{% static 'Images/icons/sell-stock.png' %}" height="20" width="20"></a>
+                <a href="{% url 'edit_item' i.id %}" style="margin-left: 8px;" title="edit"> <img
+                        src="{% static 'Images/icons/edit.png' %}" height="20" width="20"></a>
+                <a href="{% url 'delete_item' i.id %}" style="margin-left: 8px;" title="delete"> <img
+                        src="{% static 'Images/icons/delete.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        {% for i in item_list %}
+        <tr>
+            <td>{{i.part_number}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.selling_price}}</td>
+            <td>{{i.available_quantity}}</td>
+            <td>{{i.car_type}}</td>
+            <td>{{i.shelf_position}}</td>
+            <td style="float:right;">
+                <a href="{% url 'select_item_to_sell' i.id %}" title="sell"> <img
+                        src="{% static 'Images/icons/sell-stock.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+    </table>
+
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

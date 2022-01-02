@@ -1,0 +1,58 @@
+{% extends 'manager_base_site.html'%}
+{% block title%}Store Item{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="col-sm-12" style="margin-top: 10px;">
+    <a class="btn btn-success" href="{% url 'store_item_move'  %}"
+    style="float: right; width: 200px;margin-bottom: 10px;">item move from/to store</a>
+
+    {% if not item_list%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>There is no Item in store</h3>
+    </div>
+    {% else %}
+    <h4>store item list</h4>
+
+    <table class="table table-striped">
+        <thead class="table-info">
+            <tr>
+                <th><strong>part number</strong></th>
+                <th><strong>product name</strong></th>
+                <th><strong>purchase price</strong></th>
+                <th><strong>selling price</strong></th>
+                <th><strong>quantity</strong></th>
+                <th><strong>type of car</strong></th>
+                <th><strong></strong></th>
+            </tr>
+        </thead>
+        {% for i in item_list %}
+
+        <tr>
+            <td>{{i.part_number}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.purchase_price}}</td>
+            <td>{{i.selling_price}}</td>
+            <td>{{i.quantity_in_store}}</td>
+            <td>{{i.car_type}}</td>
+            <td style="float:right;">
+                  <a href="{% url 'edit_item' i.id %}" style="margin-left: 8px;" title="edit"> <img
+                        src="{% static 'Images/icons/edit.png' %}" height="20" width="20"></a>
+                <a href="{% url 'delete_item' i.id %}" style="margin-left: 8px;" title="delete"> <img
+                        src="{% static 'Images/icons/delete.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+
+
+        {% endfor %}
+    </table>
+
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

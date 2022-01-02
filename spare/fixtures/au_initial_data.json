@@ -1,0 +1,11 @@
+[
+    {
+        "model": "spare.StoreShelf",
+        "pk": 1,
+        "fields": {
+            "name": "store",
+            "description": "not in stock"
+        }
+    }
+    
+]

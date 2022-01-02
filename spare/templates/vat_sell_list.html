@@ -1,0 +1,79 @@
+{% extends 'manager_base_site.html' %}
+{% block title%}vat sell list{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<div class="col-sm-12" style="margin-top: 10px;">
+    <a class="btn btn-success" href="{% url 'new_sell'  %}" style="float: right; width: 200px;margin-bottom: 10px;">new
+        sell</a>
+
+    {% if not sell_list%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>no item sell</h3>
+    </div>
+    {% else %}
+    <h4>{{date}} item sell list with vat</h4>
+    <table class="table table-striped">
+        <thead class="table-info">
+            <tr>
+                <th><strong>part number</strong></th>
+                <th><strong>item</strong></th>
+                <th><strong>quantity</strong></th>
+                <th><strong>unit price</strong></th>
+                <th><strong>total price</strong></th>
+                <th><strong>vat price</strong></th>
+                <th><strong>total price with vat</strong></th>
+                <th><strong>seller</strong></th>
+                <th><strong>date</strong></th>
+                <th><strong></strong></th>
+
+            </tr>
+        </thead>
+        {% for i in sell_list %}
+        <tr>
+            <td>{{i.item.part_number}}</td>
+            <td>{{i.item.name}}</td>
+            <td>{{i.quantity}}</td>
+            <td>{{i.selling_price}}</td>
+            <td>{{i.total_price}}</td>
+            <td>{{i.vat_price}}</td>
+            <td>{{i.total_price_with_vat}}</td>
+            <td>{{i.seller}}</td>
+            <td>{{i.date}}</td>
+            <td style="float:right;">
+                <a href="{% url 'edit_sell' i.id %}" style="margin-left: 8px;" title="edit"> <img
+                        src="{% static 'Images/icons/edit.png' %}" height="20" width="20"></a>
+                <a href="{% url 'delete_sell' i.id %}" style="margin-left: 8px;" title="delete"> <img
+                        src="{% static 'Images/icons/delete.png' %}" height="20" width="20"></a>
+            </td>
+        </tr>
+
+
+        {% endfor %}
+        <tr>
+            <td><strong>Summary</strong> </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><strong>{{total_cost}}</strong></td>
+            <td><strong>{{total_vat}}</strong></td>
+            <td><strong>{{total_cost_with_vat}}</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    {% endif %}
+    <a class="butt" href="{% url 'vat_sell_list' 'This Year' %}" style="float:right;  margin-left: 3%;">This year</a>
+    <a class="butt" href="{% url 'vat_sell_list' 'This Month' %}" style="float:right;  margin-left: 3%;">This month</a>
+    <a class="butt" href="{% url 'vat_sell_list' 'This Week' %}" style="float:right;  margin-left: 3%;">This Week</a>
+    <a class="butt" href="{% url 'vat_sell_list' 'Yesterday' %}" style="float:right;  margin-left: 3%;">Yesterday</a>
+    <a class="butt" href="{% url 'vat_sell_list' 'Today' %}" style="float:right;  margin-left: 3%;">Today</a>
+
+</div>
+
+
+{% endblock %}

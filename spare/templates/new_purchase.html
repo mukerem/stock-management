@@ -1,0 +1,39 @@
+{% extends "manager_base_site.html" %}
+{% block title%}Item Purchase{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+
+<div class="container col-5" style="margin-left:10%; margin-top:3%;">
+    {{form.media}}
+    <form enctype="multipart/form-data" method="post" novalidate>
+        {% csrf_token %}
+
+        {% include 'horizontal_form.html' %}
+        <button type="submit" class="btn btn-primary"> save</button>
+
+    </form>
+
+</div>
+<script src="{% static 'files/bootstrap/jquery/jquery-3.3.1.min.js' %}"></script>
+<script>
+    $("#id_item").change(function () {
+        var url = "{% url 'ajax_update_purchase_data' %}";
+        var item = document.getElementById("id_item").value;
+        $.ajax({
+            url: url,
+            data: {
+                'item': item,
+            },
+            success: function (data) {
+                var selling_price = data['selling_price'];
+                var purchase_price = data['purchase_price'];
+                document.getElementById("id_selling_price").value = selling_price;
+                document.getElementById("id_purchase_price").value = purchase_price;
+
+            }
+        });
+    });
+</script>
+{% endblock %}

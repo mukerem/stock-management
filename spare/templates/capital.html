@@ -1,0 +1,58 @@
+{% extends 'manager_base_site.html' %}
+{% block title%}Capital {% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<div class="col-sm-12" style="margin-top:3%;">
+    
+    {% if not all_items%}
+    <div class="col-sm-8" style="margin-left:5%;">
+        <h3>There is no item</h3>
+    </div>
+    {% else %}
+
+    <table class="table table-striped">
+        <thead class="table-info">
+            <tr>
+                <th><strong>part number</strong></th>
+                <th><strong>item</strong></th>
+                <th><strong>quantity</strong></th>
+                <th><strong>unit purchase price</strong></th>
+                <th><strong>total purchase price</strong></th>
+                <th><strong>unit selling price</strong></th>
+                <th><strong>total selling price</strong></th>
+            </tr>
+        </thead>
+        {% for i in all_items %}
+        <tr>
+            <td>{{i.part_number}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.current_quantity}}</td>
+            <td>{{i.purchase_price}}</td>
+            <td>{{i.total_purchase_cost}}</td>
+            <td>{{i.selling_price}}</td>
+            <td>{{i.total_selling_cost}}</td>
+        </tr>
+
+
+        {% endfor %}
+        <tr>
+            <td><strong>Summary</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><strong>{{purchase_capital}}</strong></td>
+            <td></td>
+            <td><strong>{{selling_capital}}</strong></td>
+
+        </tr>
+    </table>
+
+    {% endif %}
+
+</div>
+
+
+{% endblock %}
